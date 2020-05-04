@@ -8,11 +8,12 @@ public class Main
 	public static void main(String[] args) throws FileNotFoundException
 	{    
         // CHANGE THESE TO MATCH YOUR CONDITIONS FOUND ON BLACKBOARD
-		int memorySize = 2000;
-        int memoryManagementPolicy = 2;
+		int memorySize = 2000; // THIS IS 2000 FOR ALL OF THE GIVEN FILES
+        int memoryManagementPolicy = 2; // 1 for VSP, 2 for PAG, 3 for SEG
         int fitAlgorithm = -1; // used ONLY for VSP/SEG
-        int pageSize = 100; // used ONLY for PAG
+        int pageSize = 100; // used ONLY for PAG so none of ya'll should be using this
         String workloadFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
+        // THIS IS WHERE I SAVED THE INPUT FILES, PROBABLY NOT WHERE YOU SAVED THEM
         
         int numberOfProcesses = -1;
         
