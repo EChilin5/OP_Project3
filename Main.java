@@ -10,8 +10,7 @@ public class Main
         // CHANGE THESE TO MATCH YOUR CONDITIONS FOUND ON BLACKBOARD
 		int memorySize = 2000; // THIS IS 2000 FOR ALL OF THE GIVEN FILES
         int memoryManagementPolicy = 2; // 1 for VSP, 2 for PAG, 3 for SEG
-        int fitAlgorithm = -1; // used ONLY for VSP/SEG
-        int pageSize = 100; // used ONLY for PAG so none of ya'll should be using this
+        int fitAlgorithm = 100; // for VSP/SEG, should be 1/2/3; for PAG, determines PAGE SIZE
         String workloadFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
         // THIS IS WHERE I SAVED THE INPUT FILES, PROBABLY NOT WHERE YOU SAVED THEM
         
@@ -19,8 +18,8 @@ public class Main
         
         System.out.println("memory size: " + memorySize); // TEST LINE
         System.out.println("memory management policy: " + memoryManagementPolicy); // TEST LINE
-        System.out.println("fit algorithm: " + pageSize); // TEST LINE
-        System.out.println("page size: " + pageSize); // TEST LINE
+        System.out.print(memoryManagementPolicy != 2 ? "fit algorithm: " : "page size: "); // TEST LINE
+        System.out.println(fitAlgorithm); // TEST LINE
         System.out.println("workload file: " + workloadFileName); // TEST LINE
         
         Scanner workloadFile = new Scanner(new File(workloadFileName));
@@ -31,6 +30,7 @@ public class Main
         
         workloadFile.close();
 	}
+	//
 	
 	/* THE ACTUAL ONE WITH REAL INPUTS
 	public static void main(String[] args) throws FileNotFoundException
@@ -55,20 +55,11 @@ public class Main
         consoleInput.nextLine(); // consumes new line character
         System.out.println("memory management policy: " + memoryManagementPolicy); // TEST LINE
         
-        if (memoryManagementPolicy != 2)
-        {
-        	System.out.print("Fit algorithm (1- first-fit, 2- best-fit, 3- worst-fit): ");
-            fitAlgorithm = consoleInput.nextInt();
-            consoleInput.nextLine(); // consumes new line character
-            System.out.println("fit algorithm: " + fitAlgorithm); // TEST LINE
-        }
-        else
-        {
-        	System.out.print("Page/frame size: ");
-        	pageSize = consoleInput.nextInt();
-        	consoleInput.nextLine(); // consumes new line character
-        	System.out.println("page size: " + pageSize); // TEST LINE
-        }
+        System.out.print(memoryManagementPolicy != 2 ? "Fit algorithm (1- first-fit, 2- best-fit, 3- worst-fit): " : "Page size: ");
+        fitAlgorithm = consoleInput.nextInt();
+        consoleInput.nextLine(); // consumes new line character
+        System.out.print(memoryManagementPolicy != 2 ? "fit algorithm: " : "page size: "); // TEST LINE
+        System.out.println(fitAlgorithm); // TEST LINE
         
         System.out.print("Workload file: ");
         workloadFileName = consoleInput.nextLine();
