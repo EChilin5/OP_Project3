@@ -22,49 +22,9 @@ public class Process
 		return processID;
 	}
 	
-	public void setProcessID(int processID)
+	public void decrementLifetime()
 	{
-		this.processID = processID;
-	}
-	
-	public int getArrivalTime()
-	{
-		return arrivalTime;
-	}
-	
-	public void setArrivalTime(int arrivalTime)
-	{
-		this.arrivalTime = arrivalTime;
-	}
-	
-	public int getLifetime()
-	{
-		return lifetime;
-	}
-	
-	public void setLifetime(int lifetime)
-	{
-		this.lifetime = lifetime;
-	}
-	
-	public int getSpaceReq()
-	{
-		return spaceReq;
-	}
-	
-	public void setSpaceReq(int spaceReq)
-	{
-		this.spaceReq = spaceReq;
-	}
-	
-	public int[] getSegments()
-	{
-		return segments;
-	}
-
-	public void setSegments(int[] segments)
-	{
-		this.segments = segments;
+		lifetime--;
 	}
 	
 	public void printDebugMsg()
