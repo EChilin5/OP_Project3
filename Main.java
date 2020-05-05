@@ -4,7 +4,9 @@ import java.util.Scanner;
 
 public class Main
 {	
-	// FOR DEBUG ONLY TO SKIP INPUT
+	static Process[] processes;
+	
+	/* FOR DEBUG ONLY TO SKIP THE PART WHERE YOU HAVE TO MANUALLY INPUT EVERYTHING
 	public static void main(String[] args) throws FileNotFoundException
 	{    
         // CHANGE THESE TO MATCH YOUR CONDITIONS FOUND ON BLACKBOARD
@@ -21,29 +23,21 @@ public class Main
         System.out.print(memoryManagementPolicy != 2 ? "fit algorithm: " : "page size: "); // TEST LINE
         System.out.println(fitAlgorithm); // TEST LINE
         System.out.println("workload file: " + workloadFileName); // TEST LINE
-        
-        Scanner workloadFile = new Scanner(new File(workloadFileName));
-        numberOfProcesses = readInputForNumberOfProcesses(workloadFile);
-        System.out.println("# of processes: " + numberOfProcesses); // TEST LINE
                 
+        readInput(workloadFileName);
         // THE THING THAT YOU WANT TO DO HERE
-        
-        workloadFile.close();
 	}
-	//
+	*/
 	
-	/* THE ACTUAL ONE WITH REAL INPUTS
+	//
 	public static void main(String[] args) throws FileNotFoundException
 	{
 		Scanner consoleInput = new Scanner(System.in);
         
-        int memorySize = -1;
-        int memoryManagementPolicy = -1;
-        int fitAlgorithm = -1; // used ONLY for VSP/SEG
-        int pageSize = -1; // used ONLY for PAG
+        int memorySize;
+        int memoryManagementPolicy;
+        int fitAlgorithm; // used ONLY for VSP/SEG, act as "pageSize" for PAG
         String workloadFileName;
-        
-        int numberOfProcesses = -1;
         
         System.out.print("Memory size: ");
         memorySize = consoleInput.nextInt();
@@ -65,9 +59,8 @@ public class Main
         workloadFileName = consoleInput.nextLine();
         System.out.println(workloadFileName); // TEST LINE
         
-        Scanner workloadFile = new Scanner(new File(workloadFileName));
-        numberOfProcesses = readInputForNumberOfProcesses(workloadFile);
-        System.out.println("# of processes: " + numberOfProcesses); // TEST LINE
+        consoleInput.close();
+        readInput(workloadFileName);
                 
         if (memoryManagementPolicy == 1)
         {
@@ -81,15 +74,37 @@ public class Main
         {
         	// Segmentation
         }
-        
-        consoleInput.close();
-        workloadFile.close();
 	}
-	*/
+	//
 	
-	private static int readInputForNumberOfProcesses(Scanner inputFile)
+	private static void readInput(String inputFileName) throws FileNotFoundException
 	{
-		return inputFile.nextInt();
+		Scanner inputFile = new Scanner(new File(inputFileName));
+		int processCount = inputFile.nextInt();
+		processes = new Process[processCount];
+		
+		for (int i = 0; i < processCount; i++)
+		{
+			int processID = inputFile.nextInt();
+			int arrivalTime = inputFile.nextInt();
+			int lifetime = inputFile.nextInt();
+			int segmentCount = inputFile.nextInt();
+			
+			// You should only be using 1 of these two, but to make it a bit easier to manage, here's both.
+			int spaceReq = 0;
+			int[] segments = new int[segmentCount];
+			
+			for (int j = 0; j < segmentCount; j++)
+			{
+				int nextInt = inputFile.nextInt();
+				spaceReq += nextInt;
+				segments[j] = nextInt;
+			}
+			
+			processes[i] = new Process(processID, arrivalTime, lifetime, spaceReq, segments);
+			processes[i].printDebugMsg(); // TEST LINE
+		}
+			
+		inputFile.close();	
 	}
-	
 }
