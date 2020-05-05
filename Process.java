@@ -1,5 +1,5 @@
 
-public class Process implements Runnable
+public class Process
 {
 	private int processID; // line 1
 	private int arrivalTime; // line 2, 1st number
@@ -56,12 +56,6 @@ public class Process implements Runnable
 	{
 		this.spaceReq = spaceReq;
 	}
-
-	@Override
-	public void run()
-	{
-		// idk
-	}
 	
 	public int[] getSegments()
 	{
@@ -75,7 +69,7 @@ public class Process implements Runnable
 	
 	public void printDebugMsg()
 	{
-		System.out.print("New process created - ID: " + processID + " / Arrival Time: "
+		System.out.print("Process - ID: " + processID + " / Arrival Time: "
 				+ arrivalTime + " / Lifetime: " + lifetime + " / Space required: " + spaceReq
 				+ " / Segments: [");
 		for (int i = 0; i < segments.length - 1; i++)

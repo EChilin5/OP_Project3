@@ -3,64 +3,42 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main
-{	
-	/* FOR DEBUG ONLY TO SKIP THE PART WHERE YOU HAVE TO MANUALLY INPUT EVERYTHING
+{		
+    // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+	private static final String defaultMemorySize = "2000";
+	private static final String defaultMemoryManagementPolicy = "2";
+	private static final String defaultFitAlgorithm = "100";
+	private static final String defaultFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
+	// THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+
 	public static void main(String[] args) throws FileNotFoundException
-	{    
-        // CHANGE THESE TO MATCH YOUR CONDITIONS FOUND ON BLACKBOARD
-		int memorySize = 2000; // THIS IS 2000 FOR ALL OF THE GIVEN FILES
-        int memoryManagementPolicy = 2; // 1 for VSP, 2 for PAG, 3 for SEG
-        int fitAlgorithm = 100; // for VSP/SEG, should be 1/2/3; for PAG, determines PAGE SIZE
-        String workloadFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
-        // THIS IS WHERE I SAVED THE INPUT FILES, PROBABLY NOT WHERE YOU SAVED THEM
-        
-        int numberOfProcesses = -1;
-        
-        System.out.println("memory size: " + memorySize); // TEST LINE
-        System.out.println("memory management policy: " + memoryManagementPolicy); // TEST LINE
-        System.out.print(memoryManagementPolicy != 2 ? "fit algorithm: " : "page size: "); // TEST LINE
-        System.out.println(fitAlgorithm); // TEST LINE
-        System.out.println("workload file: " + workloadFileName); // TEST LINE
-                
-        readInput(workloadFileName);
-        // THE THING THAT YOU WANT TO DO HERE
-	}
-	*/
-	
-	//
-	public static void main(String[] args) throws FileNotFoundException
-	{
-		Scanner consoleInput = new Scanner(System.in);
-        
+	{        
         int memorySize;
         int memoryManagementPolicy;
         int fitAlgorithm; // used ONLY for VSP/SEG, act as "pageSize" for PAG
         String workloadFileName;
         Process[] processes;
         
-        System.out.print("Memory size: ");
-        memorySize = consoleInput.nextInt();
-        consoleInput.nextLine(); // consumes new line character
-        System.out.println("memory size: " + memorySize); // TEST LINE
+        String[] userInput = readUserInput();
         
-        System.out.print("Memory management policy (1- VSP, 2- PAG, 3- SEG): ");
-        memoryManagementPolicy = consoleInput.nextInt();
-        consoleInput.nextLine(); // consumes new line character
-        System.out.println("memory management policy: " + memoryManagementPolicy); // TEST LINE
+        // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+        if (userInput == null)
+        {
+            userInput = new String[4];
+            userInput[0] = defaultMemorySize;
+            userInput[1] = defaultMemoryManagementPolicy;
+            userInput[2] = defaultFitAlgorithm;
+            userInput[3] = defaultFileName;
+        }
+        // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
         
-        System.out.print(memoryManagementPolicy != 2 ? "Fit algorithm (1- first-fit, 2- best-fit, 3- worst-fit): " : "Page size: ");
-        fitAlgorithm = consoleInput.nextInt();
-        consoleInput.nextLine(); // consumes new line character
-        System.out.print(memoryManagementPolicy != 2 ? "fit algorithm: " : "page size: "); // TEST LINE
-        System.out.println(fitAlgorithm); // TEST LINE
+        memorySize = Integer.parseInt(userInput[0]);
+        memoryManagementPolicy = Integer.parseInt(userInput[1]);
+        fitAlgorithm = Integer.parseInt(userInput[2]);
+        workloadFileName = userInput[3];
         
-        System.out.print("Workload file: ");
-        workloadFileName = consoleInput.nextLine();
-        System.out.println(workloadFileName); // TEST LINE
+        processes = readWorkloadFile(workloadFileName);
         
-        consoleInput.close();
-        processes = readInput(workloadFileName);
-                
         if (memoryManagementPolicy == 1)
         {
         	// Variable-Size Partitioning
@@ -76,7 +54,40 @@ public class Main
 	}
 	//
 	
-	private static Process[] readInput(String inputFileName) throws FileNotFoundException
+	private static String[] readUserInput()
+	{
+		Scanner input = new Scanner(System.in);
+		
+		String[] userInputValues = new String[4];
+		
+		// THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+		System.out.print("Skip inputs for testing? (y/n): ");
+		if (input.nextLine().contentEquals("y"))
+			return null;
+		// THESE LINSE OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+		
+		String prompt0 = "Memory size: ";
+		String prompt1 = "Memory management policy (1- VSP, 2- PAG, 3- SEG): ";
+		String prompt2_1 = "Fit algorithm (1- first-fit, 2- best-fit, 3- worst-fit): ";
+		String prompt2_2 = "Page size: ";
+		String prompt3 = "Workload file: ";
+		
+		System.out.print(prompt0);
+        userInputValues[0] = input.nextLine();
+        
+        System.out.print(prompt1);
+        userInputValues[1] = input.nextLine();
+        
+        System.out.print(userInputValues[1].equals("2") ? prompt2_1 : prompt2_2);
+        userInputValues[2] = input.nextLine();
+        
+        System.out.print(prompt3);
+        userInputValues[3] = input.nextLine();
+        
+        return userInputValues;
+	}
+	
+	private static Process[] readWorkloadFile(String inputFileName) throws FileNotFoundException
 	{
 		Scanner inputFile = new Scanner(new File(inputFileName));
 		int processCount = inputFile.nextInt();
