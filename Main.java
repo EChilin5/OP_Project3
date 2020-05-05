@@ -46,6 +46,7 @@ public class Main
         else if (memoryManagementPolicy == 2)
         {
         	// Paging
+        	Pager pager = new Pager(memorySize, fitAlgorithm, processes);
         }
         else if (memoryManagementPolicy == 3)
         {
@@ -78,7 +79,7 @@ public class Main
         System.out.print(prompt1);
         userInputValues[1] = input.nextLine();
         
-        System.out.print(userInputValues[1].equals("2") ? prompt2_1 : prompt2_2);
+        System.out.print(userInputValues[1].equals("2") ? prompt2_2 : prompt2_1);
         userInputValues[2] = input.nextLine();
         
         System.out.print(prompt3);
@@ -112,7 +113,7 @@ public class Main
 			}
 			
 			processes[i] = new Process(processID, arrivalTime, lifetime, spaceReq, segments);
-			processes[i].printDebugMsg(); // TEST LINE
+			// processes[i].printDebugMsg(); // TEST LINE
 		}
 			
 		inputFile.close();
