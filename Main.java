@@ -4,8 +4,6 @@ import java.util.Scanner;
 
 public class Main
 {	
-	static Process[] processes;
-	
 	/* FOR DEBUG ONLY TO SKIP THE PART WHERE YOU HAVE TO MANUALLY INPUT EVERYTHING
 	public static void main(String[] args) throws FileNotFoundException
 	{    
@@ -38,6 +36,7 @@ public class Main
         int memoryManagementPolicy;
         int fitAlgorithm; // used ONLY for VSP/SEG, act as "pageSize" for PAG
         String workloadFileName;
+        Process[] processes;
         
         System.out.print("Memory size: ");
         memorySize = consoleInput.nextInt();
@@ -60,7 +59,7 @@ public class Main
         System.out.println(workloadFileName); // TEST LINE
         
         consoleInput.close();
-        readInput(workloadFileName);
+        processes = readInput(workloadFileName);
                 
         if (memoryManagementPolicy == 1)
         {
@@ -77,11 +76,11 @@ public class Main
 	}
 	//
 	
-	private static void readInput(String inputFileName) throws FileNotFoundException
+	private static Process[] readInput(String inputFileName) throws FileNotFoundException
 	{
 		Scanner inputFile = new Scanner(new File(inputFileName));
 		int processCount = inputFile.nextInt();
-		processes = new Process[processCount];
+		Process[] processes = new Process[processCount];
 		
 		for (int i = 0; i < processCount; i++)
 		{
@@ -105,6 +104,7 @@ public class Main
 			processes[i].printDebugMsg(); // TEST LINE
 		}
 			
-		inputFile.close();	
+		inputFile.close();
+		return processes;
 	}
 }
