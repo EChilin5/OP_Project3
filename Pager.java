@@ -6,6 +6,8 @@ public class Pager
 	
 	private Process[] processes;
 	private ProcessQueue waitQueue;
+	private boolean[] startCounting;
+	private int[] turnaround;
 	
 	private int[] memoryMap;
 	
@@ -17,6 +19,8 @@ public class Pager
 		this.pageCount = totalMemorySize / pageSize;
 		this.processes = processes;
 		this.waitQueue = new ProcessQueue();
+		this.startCounting = new boolean[processes.length];
+		this.turnaround = new int[processes.length];
 		this.memoryMap = invalidate(new int[pageCount]);
 		this.time = 0;
 		page();
@@ -27,7 +31,7 @@ public class Pager
 		boolean timeNotMarked = true;
 		while (!(checkLifetimes()))
 		{
-			// Check for completion.
+			// Check for completion. If so, removes the process from memory.
 			for (int i = 0; i < processes.length; i++)
 			{
 				processes[i].decrementLifetime();
@@ -45,14 +49,15 @@ public class Pager
 						System.out.println("\tProcess " + processes[i].getProcessID() + " completes");
 					}
 					System.out.println(getMemoryMap());
+					startCounting[i] = false;
 					processes[i].deactivate();
 				}
 			}
 			
-			// Check for addition.
+			// Check if can add this process to the wait queue.
 			for (int i = 0; i < processes.length; i++)
 			{
-				if (processes[i].getArrivalTime() == time)
+				if (processes[i].getArrivalTime() == time) // must be EXACTLY equal to time
 				{
 					if (timeNotMarked)
 					{
@@ -65,10 +70,12 @@ public class Pager
 					}
 					System.out.println("Process " + processes[i].getProcessID() + " arrives");
 					waitQueue.enqueue(processes[i]);
+					startCounting[i] = true;
 					System.out.println("\tInput Queue: " + waitQueue);
 				}
 			}
 			
+			// Tries to add processes in wait queue into memory.
 			boolean noMoreFit = false;
 			do
 			{
@@ -80,7 +87,11 @@ public class Pager
 				{
 					Process currentProcess = waitQueue.getFront();
 					int[] validIndexes = fits(currentProcess.getProcessSize());
-					if (validIndexes[validIndexes.length - 1] == -1)
+					if (validIndexes.length - 1 == -1)
+					{
+						noMoreFit = true;
+					}
+					else if (validIndexes[validIndexes.length - 1] == -1)
 					{
 						noMoreFit = true;
 					}
@@ -108,16 +119,33 @@ public class Pager
 				}
 			} while (!(noMoreFit));
 			
+			// Counts turnaround.
+			for (int i = 0; i < processes.length; i++)
+			{
+				if (startCounting[i])
+				{
+					turnaround[i]++;
+				}
+			}
+			
 			timeNotMarked = true;
 			this.time++;
 		}
+		
+		double avgTurnaround = turnaround[0];
+		for (int i = 1; i < turnaround.length; i++)
+		{
+			avgTurnaround += turnaround[i];
+		}
+		System.out.println("Average turnaround: " + (avgTurnaround / turnaround.length));
+		
 	}
 	
 	private boolean checkLifetimes()
 	{
 		for (int i = 0; i < processes.length; i++)
 		{
-			if (processes[i].getLifetime() != 0)
+			if (processes[i].getLifetime() > 0)
 			{
 				return false;
 			}
@@ -188,7 +216,13 @@ public class Pager
 	
 	private int[] fits(int processSize)
 	{
-		int[] validIndexes = invalidate(new int[processSize / pageSize]);
+		int spacesToFill = processSize / pageSize;
+		if (processSize % pageSize != 0)
+		{
+			spacesToFill += 1;
+		}
+		
+		int[] validIndexes = invalidate(new int[spacesToFill]);
 		
 		int i = 0;
 		int j = 0;

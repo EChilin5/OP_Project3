@@ -51,6 +51,7 @@ public class Process
 		active = true;
 	}
 	
+	// i used these methods for paging, but idk if you want them or not
 	public void decrementLifetime()
 	{
 		if (active)
