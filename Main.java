@@ -8,8 +8,8 @@ public class Main
 	private static final String defaultMemorySize = "2000";
 	private static final String defaultMemoryManagementPolicy = "2";
 	private static final String defaultFitAlgorithm = "100";
-	//private static final String defaultFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
-	private static final String defaultFileName = "/Users/edgarchilin/git/opProject3/in1.txt";
+	private static final String defaultFileName = "C:\\Users\\Dell\\Downloads\\cs4310project\\in1.dat";
+	//private static final String defaultFileName = "/Users/edgarchilin/git/opProject3/in1.txt";
 	// THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
 
 	public static void main(String[] args) throws FileNotFoundException
@@ -22,7 +22,7 @@ public class Main
         
         String[] userInput = readUserInput();
         
-      /* // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
+      // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
         if (userInput == null)
         {
             userInput = new String[4];
@@ -32,7 +32,7 @@ public class Main
             userInput[3] = defaultFileName;
         }
         // THESE LINES OF CODE ARE FOR TESTING. DELETE THEM WHEN DONE.
-        */
+        
         memorySize = Integer.parseInt(userInput[0]);
         memoryManagementPolicy = Integer.parseInt(userInput[1]);
         fitAlgorithm = Integer.parseInt(userInput[2]);
@@ -46,8 +46,7 @@ public class Main
         	try {
 				VSPoptions.RunCommand(memorySize, fitAlgorithm, processes);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				// use a seperate thread so it requires a run time exception
+				// use a separate thread so it requires a interrupted exception
 				//e.printStackTrace();
 			}
         }
