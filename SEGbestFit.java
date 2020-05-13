@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-public class Segmentation2 {
+public class SEGbestFit {
 	
 	private Process[] processes;
 	private processQueue processQueue = new processQueue();
@@ -12,7 +12,7 @@ public class Segmentation2 {
 	private int processesAdded;
 
 	
-	public Segmentation2(Process[] processes, int memorySize, int fitAlgorithm) {
+	public SEGbestFit(Process[] processes, int memorySize, int fitAlgorithm) {
 		this.processes = processes;
 		this.memorySize = memorySize;
 		this.fitAlgorithm = fitAlgorithm;
