@@ -4,9 +4,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 public class VSPoptions {
-	
-	
-	
+		
 	 public static void RunCommand(int totalMemorySize, int fitAlgorithm, Process[] processes) throws InterruptedException {
 	     System.out.println("For VSP it uses a timer so please do not\n "
 	     		+ "terminate the program because it waits until the proccess is complete to remove it. \n"
@@ -17,7 +15,7 @@ public class VSPoptions {
 	            BestFit(totalMemorySize, processes);
 	        }else if(fitAlgorithm == 2){
 	       	 System.out.println("VSP FirstFit\n");
-	            //FirstFit();
+	            FirstFit(totalMemorySize, processes);
 	        }else if(fitAlgorithm == 3){
 	       	 System.out.println("VSP WorseFit\n");
 	            WorseFit(totalMemorySize, processes);
@@ -28,10 +26,9 @@ public class VSPoptions {
 	        VSPbestFit.BF(totalmemory, processes);
 	    }
 
-	 // delete suppress warning when first fit is used
-	    @SuppressWarnings("unused")
+	 
 		private static void FirstFit(int totalmemory, Process[] processes) throws InterruptedException {
-
+	    	VSPfirstFit.BF(totalmemory, processes);
 	    }
 
 	    private static  void WorseFit(int totalmemory, Process[] processes) throws InterruptedException {
@@ -39,6 +36,6 @@ public class VSPoptions {
 
 	    }
 	    
-	
+	   
 
 }

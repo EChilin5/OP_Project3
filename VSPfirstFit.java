@@ -10,6 +10,9 @@ public class VSPfirstFit {
     public static long startTime;
     // public static int removedSize;
     // public static boolean status = true;
+    public static Process[] processes;
+    public static int actualMaxSize =0;
+
     public static CopyOnWriteArrayList<GernerateMap> temporary =
             new CopyOnWriteArrayList<>();
 
@@ -56,16 +59,19 @@ public class VSPfirstFit {
 
 
 
-    public static void BF() throws InterruptedException {
+    public static void BF(int memory, Process[] fileprocesses) throws InterruptedException {
+    	maxSize = memory;
+        processes = fileprocesses;
+        actualMaxSize = memory -1;
         startTime = System.currentTimeMillis();
         new Thread(new TimmerThread()).start();
 
         int previousArrivaleTime = -1;
-        for (int i = 0; i < Main.processes.length; i++) {
-            int id = Main.processes[i].getProcessID();
-            int Arrivaltime = Main.processes[i].getArrivalTime();
-            int size = Main.processes[i].getProcessSize();
-            int lifetime = Main.processes[i].getLifetime();
+        for (int i = 0; i < processes.length; i++) {
+            int id = processes[i].getProcessID();
+            int Arrivaltime = processes[i].getArrivalTime();
+            int size = processes[i].getProcessSize();
+            int lifetime = processes[i].getLifetime();
 
             if (previousArrivaleTime != Arrivaltime) {
                 //UpdateFromWait();
@@ -131,7 +137,7 @@ public class VSPfirstFit {
         if (!inputQueue.isEmpty()) {
             while (!inputQueue.isEmpty()) {
                 int index = inputQueue.take();
-                if (maxSize > Main.processes[index - 1].getProcessSize()) {
+                if (maxSize > processes[index - 1].getProcessSize()) {
                     System.out.println("      MM moves Proccess " + index + " to memory");
 
                     System.out.println("      Input Queue " + inputQueue + "");
@@ -147,7 +153,7 @@ public class VSPfirstFit {
 
         for(int i = 0; i < temporary.size(); i++){
             int sum = (temporary.get(i).getEndIndex()+1) - temporary.get(i).startIndex;
-            if(temporary.get(i).getId()=="hole" && temporary.get(i).getEndIndex()-temporary.get(i).getStartIndex() > Main.processes[i].getProcessSize()){
+            if(temporary.get(i).getId()=="hole" && temporary.get(i).getEndIndex()-temporary.get(i).getStartIndex() > processes[i].getProcessSize()){
                 firstIndex = i;
             }
         }
