@@ -11,7 +11,9 @@ public class VSPbestFit {
     public static CopyOnWriteArrayList<GernerateMap> temporary = new CopyOnWriteArrayList<>();
     public static Process[] processes;
     
-    public static ArrayBlockingQueue<Integer> inputQueue = new ArrayBlockingQueue<>(20);
+    public static int arraysize = 0;
+
+    public static ArrayBlockingQueue<Integer> inputQueue;
     public static CopyOnWriteArrayList<Integer> waitQueue = new CopyOnWriteArrayList<>();
     public static AtomicInteger sum = new AtomicInteger();
 
@@ -80,6 +82,8 @@ public class VSPbestFit {
         maxSize = memory;
         processes = fileprocesses;
         actualMaxSize = memory -1;
+        arraysize = processes.length +20;
+        inputQueue = new ArrayBlockingQueue<>(arraysize);
         new Thread(new TimmerThread()).start();
 
         int previousArrivaleTime = -1;
